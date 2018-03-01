@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TechJobs.Data;
 using TechJobs.ViewModels;
+using TechJobs.Models;
 
 namespace TechJobs.Controllers
 {
@@ -19,8 +20,19 @@ namespace TechJobs.Controllers
         public IActionResult Index(int id)
         {
             // TODO #1 - get the Job with the given ID and pass it into the view
-
-            return View();
+            SearchJobsViewModel jobsViewModel = new SearchJobsViewModel
+            {
+                Jobs = jobData.Jobs
+            };
+            
+            foreach (var i in jobsViewModel.Jobs)
+            {
+                if (i.ID == id)
+                {
+                    return View(i);
+                }
+            }
+            return Redirect("/Job?=1");
         }
 
         public IActionResult New()
